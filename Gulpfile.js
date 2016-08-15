@@ -20,21 +20,32 @@ gulp.task('lint', function() {
         }));
 });
 
-gulp.task('styles',['clean-styles'],function () {
-    "use strict";
+gulp.task('styles',function () {
     return gulp.src(config.less)
+        .pipe($.debug({title: 'debug1:'}))
+        .pipe($.plumber())
         .pipe($.less())
         .pipe($.autoprefixer({browser:['last 2 version','> 5%']}))
         .pipe(gulp.dest(config.temp));
 });
 
-gulp.task('clean-styles' ,function () {
-    "use strict";
+gulp.task('less-watcher' ,function () {
+    gulp.watch([config.less],['styles']);
+
+})
+
+
+
+gulp.task('clean_styles' ,function (done) {
    var files = config.temp ;
-    console.log(files);
-    del(files);
+    console.log( "sdsdds" + files);
+    clean(files,done);
 
 });
+function clean (path,done){
+    console.log( "del " + path);
+    del(path,done);
+}
 
 
 
